@@ -1,5 +1,3 @@
-# http_web_service
-
 # Simple HTTP server
 
 This is a very simple server written in python using python flask. This has three endpoints. 
