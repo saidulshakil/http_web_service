@@ -1,0 +1,11 @@
+FROM python:3
+
+# Tag Image
+LABEL vendor="Myself" \
+      product="A simple server" \
+      arch="x64" \
+      maintainer="my@email.de"
+
+RUN pip3 install flask requests --upgrade
+
+
