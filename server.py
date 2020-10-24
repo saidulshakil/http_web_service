@@ -62,6 +62,13 @@ class ServerUtil:
     def write_log(**kwargs):
         app.logger.info(f"STATUS: {kwargs['status']}, REQUEST: {kwargs['msg']}")
 
+    @staticmethod
+    def set_up_environment(args):
+        # Step 3 setting up the environment variable for the port
+        # Though I am not sure by the instruction
+        app.logger.info(args.port)
+        os.environ['SERVERX_PORT'] = str(args.port)
+
 
 # End ServerUtil
 
@@ -106,5 +113,6 @@ if __name__ == "__main__":
     logging.basicConfig(level='INFO', format='%(asctime)s: %(message)s')
     
     args =  ServerUtil.handle_arg_parser()
+    ServerUtil.set_up_environment(args)
     app.run(debug=True, host="0.0.0.0", port=int(args.port))
 
