@@ -1,0 +1,15 @@
+version: '3'
+services:
+        my-server:
+            build:
+                context: ./
+                dockerfile: Dockerfile.server
+            container_name: my-server
+            volumes:
+                - ./:/usr/src/app
+            working_dir: /usr/src/app
+            ports:
+                - "9000:7000"
+            command: >
+                sh -c "python3 server.py -p 7000"
+
