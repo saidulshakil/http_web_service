@@ -2,9 +2,9 @@
 
 This is a very simple server written in python using python flask. This has three endpoints. 
 
-  - <host>:<port>/helloworld
-  - <host>:<port>/helloworld?name=yourName
-  - <host>:<port>/versionz
+  - host:port/helloworld
+  - host:port/helloworld?name=yourName
+  - host:port/versionz
 
 # Setup
   - Install docker and docker-compose on the host computer
