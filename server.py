@@ -96,13 +96,15 @@ def version():
 
     @return: JSON
     """
+    x = ""
     try:
 
         response_dict = {
-            "git_hash": subprocess.check_output(["git", "describe", "--always"]).strip(),
+            "git_hash": str(subprocess.check_output(["git", "describe", "--always"]).strip()),
             "project_name": "http_web_service",
             "time": datetime.now()
         }
+        
         ServerUtil.write_log(status=200, msg=request)
         return jsonify(response_dict)
     except Exception as e:
@@ -114,5 +116,6 @@ if __name__ == "__main__":
     
     args =  ServerUtil.handle_arg_parser()
     ServerUtil.set_up_environment(args)
+
     app.run(debug=True, host="0.0.0.0", port=int(args.port))
 
