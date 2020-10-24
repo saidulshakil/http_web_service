@@ -17,6 +17,8 @@ from argparse import ArgumentParser
 import os
 import json
 from re import finditer
+import subprocess
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -28,6 +30,12 @@ class ServerUtil:
     """
     @staticmethod
     def handle_arg_parser():
+        """
+        This function will take the command line arguments and process them
+        for the apllication accordingly
+
+        @return parser.parse_args() 
+        """
         parser = ArgumentParser(description="A simple server")
         parser.add_argument("-p", "--port", required=False, default=DEFAULT_PORT, help="Port number to this server is "
                                                                                        "listening to")
@@ -36,6 +44,14 @@ class ServerUtil:
     
     @staticmethod
     def split_on_camel_case(data):
+        """
+        This function will parse the input argument and add blank spaces
+        in the begining of the uppder cases. i.e. camel case separation by space    
+
+        @param: string: data
+
+        @return: string
+        """
         matches = finditer('.+?(?:(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|$)', data)
         final_string = ''
         for match in matches:
@@ -66,6 +82,25 @@ def hello_world_with_arg():
     ServerUtil.write_log(status=200, msg=request)
     return "Hello Stranger"
 
+@app.route('/versionz', methods=['GET', 'POST'])
+def version():
+    """
+    This function will handle the endpoint url:port/versionz
+
+    @return: JSON
+    """
+    try:
+
+        response_dict = {
+            "git_hash": subprocess.check_output(["git", "describe", "--always"]).strip(),
+            "project_name": "http_web_service",
+            "time": datetime.now()
+        }
+        ServerUtil.write_log(status=200, msg=request)
+        return jsonify(response_dict)
+    except Exception as e:
+        ServerUtil.write_log(status=400, msg=request)
+        abort(400)
 
 if __name__ == "__main__":
     logging.basicConfig(level='INFO', format='%(asctime)s: %(message)s')
